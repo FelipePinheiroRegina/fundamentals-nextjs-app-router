@@ -3,8 +3,9 @@ import {
   ClockIcon,
   UserGroupIcon,
   InboxIcon,
-} from '@heroicons/react/24/outline';
-import { lusitana } from '@/app/ui/fonts';
+} from "@heroicons/react/24/outline";
+import { lusitana } from "@/app/ui/fonts";
+import { fetchCardData } from "@/app/lib/data";
 
 const iconMap = {
   collected: BanknotesIcon,
@@ -14,18 +15,23 @@ const iconMap = {
 };
 
 export default async function CardWrapper() {
+  const {
+    totalPaidInvoices,
+    numberOfCustomers,
+    numberOfInvoices,
+    totalPendingInvoices,
+  } = await fetchCardData();
+  // Refresh the page, and you should see all the cards load in at the same time. You can use this pattern when you want multiple components to load in at the same time.
   return (
     <>
-      {/* NOTE: Uncomment this code in Chapter 9 */}
-
-      {/* <Card title="Collected" value={totalPaidInvoices} type="collected" />
+      <Card title="Collected" value={totalPaidInvoices} type="collected" />
       <Card title="Pending" value={totalPendingInvoices} type="pending" />
       <Card title="Total Invoices" value={numberOfInvoices} type="invoices" />
       <Card
         title="Total Customers"
         value={numberOfCustomers}
         type="customers"
-      /> */}
+      />
     </>
   );
 }
@@ -37,7 +43,7 @@ export function Card({
 }: {
   title: string;
   value: number | string;
-  type: 'invoices' | 'customers' | 'pending' | 'collected';
+  type: "invoices" | "customers" | "pending" | "collected";
 }) {
   const Icon = iconMap[type];
 
